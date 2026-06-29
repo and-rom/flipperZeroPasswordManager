@@ -2,6 +2,7 @@
 #include <furi_hal.h>
 #include <furi_hal_usb.h>
 #include <furi_hal_usb_hid.h>
+#include <furi_hal_usb_cdc.h>
 #include <usb_hid.h>
 
 void initialize_hid(void);

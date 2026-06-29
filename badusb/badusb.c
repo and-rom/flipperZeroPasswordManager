@@ -12,7 +12,7 @@ void initialize_hid(void) {
 }
 
 void deinitialize_hid(void) {
-    furi_hal_usb_set_config(&furi_hal_usb_vcp, NULL);
+    furi_hal_usb_set_config(&furi_hal_usb_cdc, NULL);
     furi_delay_ms(100);
 }
 
