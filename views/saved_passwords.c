@@ -58,6 +58,12 @@ static void saved_passwords_draw_callback(Canvas* canvas, void* model) {
 static bool saved_passwords_input_callback(InputEvent* event, void* context) {
     AppContext* app = context;
 
+    if(event->type == InputTypeRelease) {
+        if(event->key == InputKeyOk) {
+            return true; 
+        }
+    }
+
     if(event->type == InputTypeShort) {
         if(event->key == InputKeyUp) {
             if(app->selected > 0) app->selected--;
@@ -83,14 +89,18 @@ static bool saved_passwords_input_callback(InputEvent* event, void* context) {
             return false;
         } else if(event->key == InputKeyOk) {
             initialize_hid();
-            if (strlen(app->credentials[app->selected].username)){
-                type_string(app->credentials[app->selected].username);
-                press_key(HID_KEYBOARD_TAB);
-            }
             type_string(app->credentials[app->selected].password);
-            press_key(HID_KEYBOARD_RETURN); 
             release_all_keys();
             return true;
+        }
+    } else if(event->type == InputTypeLong) {
+        if(event->key == InputKeyOk) {
+            if (strlen(app->credentials[app->selected].username)){
+                initialize_hid();
+                type_string(app->credentials[app->selected].username);
+                release_all_keys();
+                return true;
+            }
         }
     }
 
