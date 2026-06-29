@@ -108,6 +108,7 @@ static bool saved_passwords_input_callback(InputEvent* event, void* context) {
 }
 
 static void saved_passwords_exit_callback(void* context) {
+    UNUSED(context);
     deinitialize_hid();
 }
 
