@@ -6,8 +6,13 @@ void initialize_hid(void) {
 
     // Set USB to HID keyboard mode
     furi_check(furi_hal_usb_set_config(&usb_hid, NULL));
-        
+
     // Give system time to enumerate device
+    furi_delay_ms(100);
+}
+
+void deinitialize_hid(void) {
+    furi_hal_usb_set_config(&furi_hal_usb_vcp, NULL);
     furi_delay_ms(100);
 }
 

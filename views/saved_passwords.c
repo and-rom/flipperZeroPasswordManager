@@ -107,6 +107,10 @@ static bool saved_passwords_input_callback(InputEvent* event, void* context) {
     return false;
 }
 
+static void saved_passwords_exit_callback(void* context) {
+    deinitialize_hid();
+}
+
 View* saved_passwords_view_alloc(AppContext* app_context) {
 
     View* view = view_alloc();
@@ -118,6 +122,7 @@ View* saved_passwords_view_alloc(AppContext* app_context) {
     *app_view = app;
     view_set_draw_callback(view, saved_passwords_draw_callback);
     view_set_input_callback(view, saved_passwords_input_callback);
-    
+    view_set_exit_callback(view, saved_passwords_exit_callback);
+
     return view;
 }

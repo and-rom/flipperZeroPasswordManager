@@ -5,6 +5,7 @@
 #include <usb_hid.h>
 
 void initialize_hid(void);
+void deinitialize_hid(void);
 void release_all_keys(void);
 void type_string(const char* str);
 void press_key(uint8_t key);
