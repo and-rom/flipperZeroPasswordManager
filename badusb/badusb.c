@@ -1,6 +1,10 @@
 #include "badusb.h"
 
+FuriHalUsbInterface* previous_usb_config;
+
 void initialize_hid(void) {
+    previous_usb_config = furi_hal_usb_get_config();
+
     // Stop other USB modes that might be active
     furi_hal_usb_unlock();
 
@@ -12,7 +16,11 @@ void initialize_hid(void) {
 }
 
 void deinitialize_hid(void) {
-    furi_hal_usb_set_config(&usb_cdc_single, NULL);
+    if(previous_usb_config) {
+        furi_hal_usb_set_config(previous_usb_config, NULL);
+    } else {
+        furi_hal_usb_unlock();
+    }
     furi_delay_ms(100);
 }
 
