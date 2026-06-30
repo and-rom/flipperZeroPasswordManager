@@ -9,6 +9,11 @@
 #include "saved_passwords.h"
 #include "../badusb/badusb.h"
 
+static void saved_passwords_enter_callback(void* context) {
+    UNUSED(context);
+    initialize_hid();
+}
+
 static void saved_passwords_draw_callback(Canvas* canvas, void* model) {
     AppContext** model_ = model;
     AppContext* app = *model_;
@@ -88,7 +93,6 @@ static bool saved_passwords_input_callback(InputEvent* event, void* context) {
             app->scroll_offset = 0;
             return false;
         } else if(event->key == InputKeyOk) {
-            initialize_hid();
             type_string(app->credentials[app->selected].password);
             release_all_keys();
             return true;
@@ -96,7 +100,6 @@ static bool saved_passwords_input_callback(InputEvent* event, void* context) {
     } else if(event->type == InputTypeLong) {
         if(event->key == InputKeyOk) {
             if (strlen(app->credentials[app->selected].username)){
-                initialize_hid();
                 type_string(app->credentials[app->selected].username);
                 release_all_keys();
                 return true;
@@ -121,6 +124,7 @@ View* saved_passwords_view_alloc(AppContext* app_context) {
     view_allocate_model(view, ViewModelTypeLockFree, sizeof(AppContext*));
     AppContext** app_view = view_get_model(view);
     *app_view = app;
+    view_set_enter_callback(view, saved_passwords_enter_callback);
     view_set_draw_callback(view, saved_passwords_draw_callback);
     view_set_input_callback(view, saved_passwords_input_callback);
     view_set_exit_callback(view, saved_passwords_exit_callback);
